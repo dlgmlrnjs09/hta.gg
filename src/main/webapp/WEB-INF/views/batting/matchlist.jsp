@@ -8,12 +8,19 @@
 
 <head>
 <style type="text/css">
+
 #matchList{
-   position: absolute;
+  width:850px;
     left: 830px;
     top: 150px;
-    padding-left: 50px;
+    height:300px;
+    float:left;
 }
+#t1{
+width: 300px;
+border: 3px solid ;
+}
+
 .btn-primary {
     color: #fff;
     background-color: black;
@@ -63,7 +70,10 @@
 
   font-size: 16px;
 }
-
+#d1{
+width: 300px;
+float: left;
+}
 </style>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script type="text/javascript" src="/lol/resources/js/jquery-3.5.1.js"></script>
@@ -98,8 +108,8 @@ $(function(){
 		        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],	
 		        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],	
 		        onSelect:function(d){
-		        	  $("#matchList").empty();
-		        	 
+		        	  $("#t2 tbody").empty();
+		        	 $("#result").empty();
 		     
 		        	var matchday=d.split("/");
 		        console.log(matchday);
@@ -111,8 +121,8 @@ $(function(){
 		        	var date = ("0"+(today.getDate())).slice(-2);  // 날짜
 		        	console.log(today);
 		        	console.log(htmlday);
-		        	$("#ss").html(d);
-					
+		     //   	$("#ss").html(d);
+		        	var cbd=d
 		        	$.ajax({
 		        		url:'/lol/match/yesdaylist',
 		        		dataType: 'json',
@@ -128,16 +138,17 @@ $(function(){
 		         			console.log(targer);
 		         			console.log(JSON.parse(targer));
 		         			
-		         				var str="<div id='"+(key+1)+"'><h3 style='color:black;'> "+(key+1)+"번째 경기</h3>"+
-		        				"<div id='vs'>"+data.matchinfo[key].B1NAME+"vs"+data.matchinfo[key].B2NAME+"</div> </div>";
+		         				var str="<tr id='t3'><td><h4 style='color:black;'> "+(key+1)+"경기</h4></td>"+
+		        				"<td id='vs'>"+data.matchinfo[key].B1NAME+"</td><td>"+data.matchinfo[key].B2NAME+"</td>";
 		        				
 		        				if(data.matchinfo[key].MWINLOSE==data.matchinfo[key].TNUM1){
-		        					str+="<span style='color:#CD0000'><h3 style='display:inline' >"+data.matchinfo[key].B1NAME+"</h3>팀 승리</span><span style='color:#00008C '><h3 style='display:inline'>"+data.matchinfo[key].MRATE+"</h3>포인트 지급</span><br><br><br>";
+		        					str+="<td><span style='color:#CD0000'><h3 style='display:inline' >"+data.matchinfo[key].B1NAME+"</h3></span><span style='color:#00008C '></td><h3 style='display:inline'><td>"+data.matchinfo[key].MRATE+"</h3>포인트</span></td><td>"+cbd+"</td><td>배팅종료</td></tr>";
 		        				}else if(data.matchinfo[key].MWINLOSE==data.matchinfo[key].TNUM2) {
-		        					str+="<span style='color:#CD0000'><h3 style='display:inline' >"+data.matchinfo[key].B2NAME+"</h3>팀 승리</span><span style='color:#00008C'><h3 style='display:inline' >"+data.matchinfo[key].MRATE+"</h3>포인트 지급</span><br><br><br>";
+		        					str+="<td><span style='color:#CD0000'><h3 style='display:inline' >"+data.matchinfo[key].B2NAME+"</h3></span><span style='color:#00008C '></td><h3 style='display:inline'><td>"+data.matchinfo[key].MRATE+"</h3>포인트</span></td><td>"+cbd+"</td><td>배팅종료</td></tr>";
+		        				
 		        				}else{
-		        					str+="<div id='winlose"+(key+1)+"'><span style='color:blue' id='vs1'>경기 결과가 없습니다.</span><input type='button' value='승리팀예상하기'"+
-		        					"onclick='selectTeam("+targer+","+(key+1)+")' class='winloseBTN'></div>";
+		        					str+="<td><span style='color:#CD0000'>경기 준비중..</span><span style='color:#00008C '></td><h3 style='display:inline'><td>"+data.matchinfo[key].MRATE+"</h3>포인트</span></td><td>"+cbd+"</td><td>"+
+		        					"<input type='button' class='teambtn1 btn-danger' onclick='b1win("+targer+","+(key+1)+")' value='"+data.matchinfo[key].B1NAME+"'><input type='button' class='teambtn2 btn-success' onclick='b2win("+targer+","+(key+1)+")' value='"+data.matchinfo[key].B2NAME+"'></td></tr>";
 		        					let Username="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.username}";
 		        					$.ajax({
 		        						url:'/lol/battinglog/choice',
@@ -156,11 +167,11 @@ $(function(){
 		        						}
 		        					})
 		        				}
-		        				$("#matchList").append(str);
+		        				$("#t2").append(str);
 		        				
 		         		})
 		        		}else{
-		        			$("#matchList").append("<div><h3>등록된 경기가 없습니다</h3></div>")
+		        			$("#t2").append("<tr><td>매치가없습니다<td></tr>")
 		        		}  
 		         			
 		        			
@@ -289,15 +300,16 @@ $.ajax({
 		console.log(data);
 		if(data){
 		$.each(data.teamrank,function(key,value){
-			$(".table").append("<tr><td><button type='button' class='btn btn-danger'>"+value.RANK+"</button></td><td>"
+			$(".t1").append("<tr><td><button type='button' class='btn btn-danger'>"+value.RANK+"</button></td><td>"
 					+"<button type='button' class='btn btn-success'>"+(value.WINCOUNT*3)+"</button></td><td><button type='button' class='btn btn-info'>"+value.TNAME+"</button></td></tr>")
 		})
 		}else{
-			$(".table").append("<tr><td>경기가 없습니다.</td></tr>")
+			$(".t1").append("<tr><td>경기가 없습니다.</td></tr>")
 		}
 	}
 	
 })
+
 })
 function getday(){
 	   var date = new Date();
@@ -329,6 +341,7 @@ function b1win(data){
 	let Username="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.username}";
 	console.log(Username);
 	var t1=data.B1NAME;
+	if(Username){
 	$.ajax({
 		url:'/lol/selectTeam',
 		dataType: 'json',
@@ -337,9 +350,13 @@ function b1win(data){
 		},
 		success:function(data){
 			alert("배팅완료");
-			$("#matchList").append(t1+"팀을 선택하셨습니다")
+			$("#result").append(t1+"팀을 선택하셨습니다")
 		}
 	})
+	}else{
+		alert("로그인 후 이용해주세요");
+		return;
+	}
 	}else{
 		return;
 	}
@@ -355,7 +372,7 @@ function b2win(data){
 	var t2=data.B2NAME;
 	let Username="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.username}";
 	console.log(Username);
-	
+	if(Username){
 	$.ajax({
 		url:'/lol/selectTeam',
 		dataType: 'json',
@@ -364,25 +381,47 @@ function b2win(data){
 		},
 		success:function(data){
 			alert("배팅완료");
-			$("#matchList").append(t2+"팀을 선택하셨습니다")
+			$("#result").append(t2+"팀을 선택하셨습니다")
 		}
 	})
+	}else{
+		alert("로그인 후 이용해주세요");
+		return;
+	}
 	}else{
 		return;
 	}
 }
 </script>
-<div id="allList" style="height: 800px; padding-left: 250px; ">
+<div id="allList" style="height: 800px; padding-left: 100px; ">
 <div id="d1" >
+
 </div>
+
+
 <div id="matchList">
-<span id="ss"></span></div>
-<div style="width: 270px;height:450px; ">
-<table class="table">
+<table class="t2 table table-striped table2" id="t2">
+<thead>
+<tr><td style="width:180px;">경기번호</td><td>TEAM1</td><td>TEAM2</td><td>승리팀</td><td>지급포인트</td><td>경기날짜</td><td>배팅하기</td></tr>
+</thead>
+<tbody></tbody>
+</table>
+<div id='result'>
+
+</div>
+
+
+<span id="ss" style="display='none' "></span></div>
+<table class="t1 table tt" id='t1' >
  <tr><td><button type="button" class="btn btn-primary">순위</button></td><td><button type="button" class="btn btn-primary">승점</button></td><td><button type="button" class="btn btn-primary">팀이름</button></td></tr>
 </table>
+
+
 </div> 
-</div>
+
+
+
+
 
 </body>
 </html>

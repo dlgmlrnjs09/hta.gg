@@ -34,7 +34,7 @@ public class BattingController {
 		service.selectTeam(vo);
 		String username=vo.getUsername();
 		pointservice.battingInsert(username);
-		System.out.println("성공");
+	
 		return "{\"code\":\"" + vo + "\"}";
 		
 	}

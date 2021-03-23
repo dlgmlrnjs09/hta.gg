@@ -53,5 +53,10 @@ public class BattingService {
 	public List<HashMap<String, Object>> teamrank(){
 		return dao.teamrank();
 	}
-	
+	public String teamname(int tnum) {
+		return dao.teamname(tnum);
+	}
+	public int deletematch(int mnum) {
+		return dao.deletematch(mnum);
+	}
 }

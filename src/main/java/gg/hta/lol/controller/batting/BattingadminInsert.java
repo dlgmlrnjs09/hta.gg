@@ -41,8 +41,7 @@ public class BattingadminInsert {
 	public Map<String, Object> addTeam(String tname) {
 
 		int n = service.addTeam(tname);
-		System.out.println(n);
-		System.out.println(tname);
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			map.put("code", "success");
@@ -67,7 +66,7 @@ public class BattingadminInsert {
 	@ResponseBody
 	public String addbatting(MatchVo vo) { // 매치정보추가(승리팀은 업데이트형식으로)
 		
-		System.out.println(vo.toString()+"////////////////////////");
+		
 		service.addMatch(vo);
 		return "{\"code\":\"" + vo + "\"}";
 	}
@@ -88,7 +87,7 @@ public class BattingadminInsert {
 	@GetMapping(value="/batting/pointGo")
 	@ResponseBody
 	public Map<String,Object> pointgo(int mnum) {
-		System.out.println(mnum);
+		
 		Map<String,Object> map=new HashMap<String,Object>();
 		service.pointGo2(mnum);
 		map.put("list", service.pointGo(mnum));
@@ -106,6 +105,17 @@ public class BattingadminInsert {
 		
 		Pservice.memberPointUpdate(vo);
 		return "";
+	}
+	@GetMapping(value="/match/teamname")
+	@ResponseBody
+	public String teamname(int tnum) {
+		return service.teamname(tnum);
+	}
+	@GetMapping(value="/match/deletematch")
+	@ResponseBody
+	public int deletematch(int mnum) {
+		System.out.println("ddd");
+		return service.deletematch(mnum);
 	}
 
 }

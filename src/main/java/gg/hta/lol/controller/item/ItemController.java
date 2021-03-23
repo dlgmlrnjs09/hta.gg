@@ -16,14 +16,14 @@ public class ItemController {
 
 	@GetMapping("/item")
 	public String item(ItemVo vo) {
-		System.out.println(vo);
+		
 		return "item/item";
 	}
 
 	@GetMapping("/iteminsert")
 	@ResponseBody
 	public String itemList(ItemVo vo) {
-		System.out.println(vo+".........");
+		
 		service.item_insert(vo);
 		return "{\"code\":\"/lol/itemlist\"}";
 	}

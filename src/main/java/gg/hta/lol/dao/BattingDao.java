@@ -55,7 +55,12 @@ public class BattingDao {
 	}
 	public List<HashMap<String, Object>> teamrank(){
 		return sqlSession.selectList(NAMESPACE+".teamrank");
-		
+	}
+	public String teamname(int tnum) {
+		return sqlSession.selectOne(NAMESPACE+".teamname",tnum);
+	}
+	public int deletematch(int mnum) {
+		return sqlSession.delete(NAMESPACE+".deletematch",mnum);
 	}
 
 }

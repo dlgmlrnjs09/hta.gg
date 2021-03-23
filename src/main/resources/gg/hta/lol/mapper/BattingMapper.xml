@@ -41,4 +41,12 @@ select aa.* from(
 select count(mwinlose)wincount,mwinlose,tname,ROW_NUMBER() over(order by count(mwinlose) desc)rank from match inner join battingteaminfo on match.mwinlose=battingteaminfo.tnum group by mwinlose,tname
 )aa
   </select>
+  <select id="teamname" resultType="string">
+  select tname from battingteaminfo where tnum=#{tnum}
+  </select>
+  <delete id='deletematch'>
+  delete from match where mnum=#{mnum}
+  </delete>
+  
+  
   </mapper>

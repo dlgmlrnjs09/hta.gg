@@ -8,24 +8,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-
 <c:choose>
-<c:when test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.username} eq 'admin'">
-<a href="/lol/battingTeam/insert">[관리자]경기입력</a>
-</c:when>
 <c:when test="${empty sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.username}">
-<h1>로그인하세여</h1>
+	location.href = '${pageContext.request.contextPath}/member/login';
 </c:when>
 <c:otherwise>
-<a href="/lol/match/list">대회목록</a>
+location.href = '${pageContext.request.contextPath}/match/list
 </c:otherwise>
 </c:choose>
-
-
-
-<h1>
-${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.username}
-</h1>
 </body>
 </html>

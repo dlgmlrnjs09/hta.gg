@@ -168,17 +168,8 @@ function search(form,input){
 }
 function page(n){
 	if(n==7){
-		var aa="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.username}";
-		if(aa){
-			console.log(aa);
 			location.href = '${pageContext.request.contextPath}/match/list';
-			console.log(aa);
 		
-		}else{
-			console.log(aa);
-			alert("로그인 후 이용해주세요.");
-			location.href = '${pageContext.request.contextPath}/member/login';
-		}
 	}else{
 	location.href="${pageContext.request.contextPath }/community/list?cNum="+n;
 	}

@@ -19,7 +19,7 @@ public class ItemDao {
 		return sqlSession.selectOne(NAMESPACE+".item_select",inum);
 	}
 	public List<ItemVo> item_alllist(){
-		System.out.println("/");
+	
 		return sqlSession.selectList(NAMESPACE+".item_alllist");
 	}
 }

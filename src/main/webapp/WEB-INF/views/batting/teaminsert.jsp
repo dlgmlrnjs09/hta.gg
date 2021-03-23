@@ -17,16 +17,23 @@
 <meta charset="UTF-8">
 <style type="text/css">
 #d1{
+	float:left;
+	padding-top:50px;
     padding-left: 100px;
 }
 #adminList{
 width: 350px;
 }
-#tb{
-position: relative;
-    top: -400px;
-    left: 400px;
+#t1{
+margin-left: -100px;
+
 }
+td{
+width: 100px;}
+#t1 tr{
+height: 70px;
+}
+
 .button{
   background-color: #4CAF50; /* Green */
   border: none;
@@ -39,6 +46,8 @@ position: relative;
 
 }
 #new{
+	float:left;
+		padding-top:50px;
     padding-left: 100px;
 }
 
@@ -57,15 +66,9 @@ position: relative;
 
 }
 
-#addTeambtn{
-background-color: black; /* Green */
-  border: 1px;
-  color: white;
-    padding: 3px 31px;
-  text-align: center;
-  text-decoration: none;
-
-  font-size: 13px;
+select{
+width: 150px;
+margin-bottom: 5px;
 }
 
 
@@ -85,17 +88,7 @@ background-color: black; /* Green */
   font-size: 16px;
 
 }
-#matchinsert{
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  
-  font-size: 16px;
- 
-}
+
 
 </style>
 <title>Insert title here</title>
@@ -106,25 +99,34 @@ background-color: black; /* Green */
 
 
 <div id="new">
-<input type="button" value="새로운팀추가" id="addTeam" class="button">
-		<input type="button" id="removeTeambtn" style="display: none;" value="팀추가끄기">
+<input type="button" value="새로운팀추가" id="addTeam" class="btn btn-primary" style='width:150px; margin-bottom: 5px; ' disabled="disabled">	
+	
+	
 
 		<br>
-		<input type="text" id="addTeamname" style="display: none;"> 
-		<input type="button" id="addTeambtn" style="display: none;" value="팀추가"><br>
-	
-		<select id='addmatch1' style="display: none;">
+		<input type="text" id="addTeamname"      style='padding-bottom: 7px;'> <br>
+		<input type="button" id="addTeambtn"  value="팀추가" class="btn btn-warning" style='width:120px; margin-top:5px'><br>
+		<br>
+		<select id='addmatch1' >
+</select>
+<select id='addmatch2' >
 </select><br>
-<select id='addmatch2' style="display: none;">
-</select><br>
-		<input type="button" id="matchinsert" value="경기등록">
+	<input type="button" id="matchinsert"  class="btn btn-success" value="경기등록" style='width:150px;'>
+
 	
 
 
 </div>
 
-	<div id='tb'>
-</div>
+
+	<table class="table table-striped" id='t1'>
+<thead>
+<tr><td>매치번호</td><td>TEAM1</td><td>TEAM2</td><td>승리팀선택</td><td>승리팀</td><td>상태</td><td></td></tr>
+</thead>
+<tbody></tbody>
+</table>
+
+
 </div>
 <input type="hidden" id="test11" >
 
@@ -134,6 +136,7 @@ background-color: black; /* Green */
 <script type="text/javascript">
 teamList();
 	$(function() {		
+		
 		$("#teamDelete").click(function() {
 			let team1 = $("#addmatch1 option:selected").val();
 			let team2 = $("#addmatch2 option:selected").val();
@@ -157,7 +160,15 @@ teamList();
 			$("#addmatch2 option[value='" + team2 + "']").remove();
 		});
 		
-		  
+		let today = new Date();   
+
+		let yyy = today.getFullYear(); // 년도
+		let mmm = today.getMonth() + 1;  // 월
+		let ddd = today.getDate();  // 날짜
+		let day = today.getDay();  // 요일
+		var coco=yyy +"/"+ mmm +"/"+ ddd;
+		dateList(coco);
+		console.log(coco);
 		$("#d1").datepicker({
 			  dateFormat: 'yy/mm/dd',
 		        prevText: '이전 달',	
@@ -184,8 +195,14 @@ teamList();
 	        		
 	        	
 	        		var matchdayin=$("#test11").val();
+	        		let ttime=($("#test11").val())
 		        		let team1=$("#addmatch1 option:selected").val();
 		        		let team2=$("#addmatch2 option:selected").val();
+		        		if(ttime==""){
+		        			alert("날짜를 선택하세요")
+		        			return;
+		        		}else{
+		        			console.log("노공백")
 		        		
 		        		
 		        		
@@ -205,9 +222,9 @@ teamList();
 		        			console.log(a);
 		        			}
 		        		})
-		        		
+		        		}
 		        	})
-		
+	        	
 
 $("#addmatch1").change(function(){
 	let team1=$("#addmatch1 option:selected").val();
@@ -240,20 +257,6 @@ $("#addmatch2").change(function(){
 		
 	}
 })
-		$("#addTeam").click(function() {
-			$("#addTeamname").css({
-				display : "inline"
-			
-			});
-			$("#addTeambtn").css({
-				display : "inline"
-			});
-			$("#removeTeambtn").css({
-				display: "inline"
-			})
-			$("#addTeam").prop("disabled",true);
-			$("#addTeam").css('backgroundColor', 'gray');
-			
 			$("#addTeambtn").click(function() {
 				var teamname = $("#addTeamname").val();
 				$.ajax({
@@ -285,6 +288,27 @@ $("#addmatch2").change(function(){
 					}
 				})
 			});
+		$("#addTeam").click(function() {
+			$("#addTeamname").css({
+				display : "inline"
+			
+			});
+			$("#addTeambtn").css({
+				display : "inline"
+			});
+			$("#removeTeambtn").css({
+				display: "inline"
+			})
+				$("#addmatch1").css({
+					display: "inline"
+				})
+					$("#addmatch2").css({
+					display: "inline"
+				})
+			$("#addTeam").prop("disabled",true);
+			$("#addTeam").css('backgroundColor', 'gray');
+			
+
 			
 			$("#removeTeambtn").click(function() {
 				$("#addTeam").prop("disabled",false);
@@ -319,15 +343,21 @@ $("#addmatch2").change(function(){
 		  }) */
 	});
 	
-function yesorno(aa,bb,cc,dd,key){
+function yesorno(aa,bb,cc,dd,key,d){
 	if(confirm("승리한팀이 맞습니까?")) {
-		
+		var dayone=$("#test11").val();
+		var daytwo=dayone.split("-");
+		var tod=daytwo[0]+"/"+daytwo[1]+"/"+daytwo[2];
+		console.log(tod);
+
+		$("#t1 tbody").empty();
+		console.log(d);
 		console.log("aaㅁㅁㅁㅁㅁ"+aa);
 		console.log("매치번호"+bb);
 		console.log("팀번호"+cc);
 		console.log("승리팀"+dd);
 		console.log($("#"+aa).parent());
-		$("#"+aa).next().find("span").html("<input type='button' id='"+key+"' onclick='pointgo("+bb+","+dd+",event)' class='button' value='포인트 즉시지급'>")
+		
 		
 		/* $("<span style='color:red'>홈팀 승리 입니다</span>").appendTo("#matchList3"); */
 		$.ajax({
@@ -338,7 +368,8 @@ function yesorno(aa,bb,cc,dd,key){
 			},
 			success : function(data){
 				console.log(data);
-				alert("성공");
+				
+				dateList(tod);
 			}
 		})
 	}else{
@@ -346,11 +377,20 @@ function yesorno(aa,bb,cc,dd,key){
 	}
 }function yesorno2(aa,bb,cc,dd,key){
 	if(confirm("승리한팀이 맞습니까!?")) {
+		
+		var dayone=$("#test11").val();
+		var daytwo=dayone.split("-");
+		var tod=daytwo[0]+"/"+daytwo[1]+"/"+daytwo[2];
+		console.log(tod);
+
+		$("#t1 tbody").empty();
 		console.log("aaㅁㅁㅁㅁㅁ"+aa);
 		console.log("매치번호"+bb);
 		console.log("팀번호"+cc);
 		console.log($("#"+aa).parent());
 		console.log($("#"+aa).parent());
+		console.log($("#"+aa).next().next().find("input"));
+		console.log()
 		$("#"+aa).next().find("span").html("<input type='button' id='"+key+"' onclick='pointgo("+bb+","+dd+",event)' class='button' value='포인트 즉시지급'>")
 		/* $("<span style='color:red'>홈팀 승리 입니다</span>").appendTo("#matchList3"); */
 				$.ajax({
@@ -361,7 +401,8 @@ function yesorno(aa,bb,cc,dd,key){
 			},
 			success : function(data){
 				console.log(data);
-				alert("성공");
+				dateList(tod);
+				
 			}
 		})
 	}else{
@@ -379,12 +420,7 @@ function teamList(){
 				console.log(value)
 				console.log(value.tname);
 				if(value.tname!=null){
-				$("#addmatch1").css({
-					display: "inline"
-				})
-					$("#addmatch2").css({
-					display: "inline"
-				})
+			
 				var team1=value.tname;
 				$("#addmatch1").append("<option value='"+value.tnum+"'>"+value.tname+"</option> ");
 				$("#addmatch2").append("<option value='"+value.tnum+"'>"+value.tname+"</option> ");
@@ -402,7 +438,7 @@ function teamList(){
 	}
 
 	function dateList(d){
-		$("#tb").empty();
+		$("#t1 tbody").empty();
 		console.log(d);
 		if(!d){
 			return;
@@ -418,11 +454,14 @@ function teamList(){
 			success:function(data){
 				console.log(data.matchinfo.length);
 				if(data.matchinfo.length==0){
-				$("#tb").append("<h3>진행된 경기가 없습니다.</h3>")
+					$(".table tbody").append("<tr><td>오늘 경기가 없습니다. </td></tr>")
 					
 				}  else{
 					
 	 		$.each(data.matchinfo,function(key,value){
+	 			console.log(data);
+	 			console.log(key+"키");
+	 			console.log(value)
 	 			console.log(data.matchinfo);
 	 			console.log(value)
 	 			if(data.matchinfo.length>0){
@@ -435,36 +474,32 @@ function teamList(){
 	 				console.log(data.matchinfo[key].MWINLOSE+"아랄랄");
 	 				console.log(data.matchinfo[key].TNUM1+"dddddddddddddddd");
 	 				console.log(data.matchinfo[key].point+"포인트")
-	 				
-	 				if(((data.matchinfo[key].MWINLOSE==data.matchinfo[key].TNUM1) && (data.matchinfo[key].POINT==0))){
-	 					str +="<div id='matchList3' '><a href='javascript:yesorno("+key+","+data.matchinfo[key].MNUM+","+value.TNUM1+","+data.matchinfo[key].MWINLOSE+","+key+3+")'>"+data.matchinfo[key].B1NAME+"</a>vs"+
-	 					"<a href='javascript:yesorno2("+key+","+data.matchinfo[key].MNUM+","+value.TNUM2+","+data.matchinfo[key].MWINLOSE+","+key+4+")'>"+data.matchinfo[key].B2NAME+"</a><br>"+
-	 					"<span id='span11'>"+data.matchinfo[key].B1NAME+"</span>팀이 승리한 경기입니다 클릭시 승리팀이 변경됩니다.</span><input type='button' id='"+key+3+"' onclick='pointgo("+data.matchinfo[key].MNUM+","+data.matchinfo[key].MWINLOSE+",event)' class='button' value='포인트지급'></div> ";
-	 				}else if(((data.matchinfo[key].MWINLOSE==data.matchinfo[key].TNUM2) && (data.matchinfo[key].POINT==0)) ){
-	 					str +="<div id='matchList3' '><a href='javascript:yesorno("+key+","+data.matchinfo[key].MNUM+","+value.TNUM1+","+data.matchinfo[key].MWINLOSE+","+key+3+")'>"+data.matchinfo[key].B1NAME+"</a>vs"+
-	 					"<a href='javascript:yesorno2("+key+","+data.matchinfo[key].MNUM+","+value.TNUM2+","+data.matchinfo[key].MWINLOSE+","+key+4+")'>"+data.matchinfo[key].B2NAME+"</a><br>"+
-	 					"<span id='span11'>"+data.matchinfo[key].B2NAME+"</span>팀이 승리한 경기입니다 클릭시 승리팀이 변경됩니다.</span><input type='button' id='"+key+4+"' onclick='pointgo("+data.matchinfo[key].MNUM+","+data.matchinfo[key].MWINLOSE+",event)' class='button' value='포인트지급'></div> ";
-	 				}else if(data.matchinfo[key].POINT==1){
+	 				var kk="<tr><td>"+(key+1)+"번째경기</td>";
+	 				if(((value.MWINLOSE==value.TNUM1) && (value.POINT==0))){
+	 					kk+="<td>"+value.B1NAME+"</td><td>"+value.B2NAME+"</td><td><input type='button' class='btn btn-info' value='"+value.B1NAME+"'  onclick='yesorno("+key+","+data.matchinfo[key].MNUM+","+value.TNUM1+","+data.matchinfo[key].MWINLOSE+","+key+3+","+d+")'><input type='button' value='"+value.B2NAME+"' class='btn btn-warning' onclick='yesorno2("+key+","+data.matchinfo[key].MNUM+","+value.TNUM2+","+data.matchinfo[key].MWINLOSE+","+key+4+","+d+")'></td><td>"+value.B1NAME+"</td><td><input type='button' id='"+key+3+"' value='포인트지급' onclick='pointgo("+value.MNUM+","+value.MWINLOSE+",event)' class='btn btn-danger'></td></tr>";
+	 					
+	 				}else if(((value.MWINLOSE==value.TNUM2) && (value.POINT==0)) ){
+	 					kk+="<td>"+value.B1NAME+"</td><td>"+value.B2NAME+"</td><td><input type='button' class='btn btn-info' value='"+value.B1NAME+"' onclick='yesorno("+key+","+data.matchinfo[key].MNUM+","+value.TNUM1+","+data.matchinfo[key].MWINLOSE+","+key+3+","+d+")'><input type='button' value='"+value.B2NAME+"' class='btn btn-warning' onclick='yesorno2("+key+","+data.matchinfo[key].MNUM+","+value.TNUM2+","+data.matchinfo[key].MWINLOSE+","+key+4+","+d+")'></td><td>"+value.B2NAME+"</td><td><input type='button' id='"+key+3+"' value='포인트지급' onclick='pointgo("+value.MNUM+","+value.MWINLOSE+",event)' class='btn btn-danger'></td></td></tr>";
+	 					
+	 				}else if(value.POINT==1){
+	 					if(value.TNUM1==value.MWINLOSE){
+	 					kk += "<td>"+value.B1NAME+"</td><td>"+value.B2NAME+"</td><td>종료된경기입니다.</td><td>"+value.B1NAME+"</td><td>지급완료</td></tr>";
+	 					}else if(value.TNUM2==value.MWINLOSE){
+	 						kk += "<td>"+value.B1NAME+"</td><td>"+value.B2NAME+"</td><td>종료된경기입니다.</td><td>"+value.B2NAME+"</td><td>지급완료</td></tr>";
+	 					}
 	 					str +="<div id='matchList3' '>"+data.matchinfo[key].B1NAME+"vs"+data.matchinfo[key].B2NAME+"<br>"+
 	 					"<span id='span11'></span>포인트 지급이 완료 되었습니다..</span></div> ";
 	 				
 	 				}else{
-	 					var team1win="<a href='javascript:yesorno("+key+","+data.matchinfo[key].MNUM+","+value.TNUM1+")'>"+data.matchinfo[key].B1NAME+"</a>";
-		 				var team2win="<a href='javascript:yesorno2("+key+","+data.matchinfo[key].MNUM+","+value.TNUM2+")'>"+data.matchinfo[key].B2NAME+"</a>";
-					
-		 				str +="<div id='matchList3'>"+team1win+"vs"+team2win+"<br><span>클릭시 승리팀을 선택합니다.</span></div> ";
+	 					kk += "<td>"+value.B1NAME+"</td><td>"+value.B2NAME+"</td><td><input type='button' value='"+value.B1NAME+"' class='btn btn-info' onclick='yesorno("+key+","+data.matchinfo[key].MNUM+","+value.TNUM1+","+data.matchinfo[key].MWINLOSE+","+key+3+","+d+")'><input type='button' class='btn btn-warning' value='"+value.B2NAME+"' onclick='yesorno2("+key+","+data.matchinfo[key].MNUM+","+value.TNUM2+","+data.matchinfo[key].MWINLOSE+","+key+4+","+d+")'></td><td>경기시작전</td><td>경기시작전</td><td><a href='javascript:deletematch("+value.MNUM+");'>x</a></td></tr>";
 						
 	 				}
-		 				$(str).appendTo("#tb");
+		 			
+	 					$(".table tbody").append(kk);
 	 				
 	 				
 	 				
-	 				
-					if(data.matchinfo[key].MWINLOSE==data.matchinfo[key].TNUM1){
 					
-					}else{
-					
-					}
 			}
 					
 				
@@ -473,16 +508,48 @@ function teamList(){
 			}
 		})
 	}
+	
+	
+	function deletematch(mnum){
+		if(confirm("해당 경기를 삭제 하시겠습니까?")){
+			var mnum1=mnum;
+			$.ajax({
+				url:'/lol/match/deletematch',
+				data:{
+					
+					mnum:mnum1
+				},
+				dataType:'json',
+				success:function(data){
+					var dayone=$("#test11").val();
+					var daytwo=dayone.split("-");
+					var tod=daytwo[0]+"/"+daytwo[1]+"/"+daytwo[2];
+					alert("성공");		
+					$("#t1 tbody").empty();
+					dateList(tod);
+				}
+				
+			})
+			
+		}else{
+			return;
+		}
+	
+		
+	}
 function pointgo(mnum,mwinlose,e){
+	var dayone=$("#test11").val();
+	var daytwo=dayone.split("-");
+	var tod=daytwo[0]+"/"+daytwo[1]+"/"+daytwo[2];
+	console.log(tod);
 	if(confirm("해당팀이 승리팀이 맞습니까?")){
 		
 		console.log(e.target);
 		var aa=e.target.id;
-	
+		var bb=e.target;
 
-	$('#'+aa).css({
-		display: "none"
-	})
+	$('#'+aa).prop("disabled", true);
+
 	$.ajax({
 		url:'/lol/batting/pointGo',
 		data:{
@@ -502,7 +569,10 @@ function pointgo(mnum,mwinlose,e){
 				}
 			})
 		})
+			$("#t1 tbody").empty();
+	dateList(tod);
 		alert("포인트지금완료");
+	
 		}
 	})
 	}else{

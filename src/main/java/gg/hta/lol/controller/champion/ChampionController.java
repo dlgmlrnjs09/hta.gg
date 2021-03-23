@@ -99,9 +99,7 @@ public class ChampionController {
 	@GetMapping(value="/champ/count")
 	public Map<String, Object> count(int championid){
 		Map<String, Object> mc=new HashMap<String, Object>();
-		System.out.println(service.wincount(championid));
-		System.out.println(service.banCount(championid));
-		System.out.println(service.matchCount(championid));
+		
 		mc.put("allCount", service.allCount(championid));
 		mc.put("wincount", service.wincount(championid));
 		mc.put("bancount", service.banCount(championid));
@@ -126,8 +124,7 @@ public class ChampionController {
 	@GetMapping(value="/champ/conver")
 	public Map<String,Object> conver(String spell1){
 		Map<String,Object> aa=new HashMap<String, Object>();
-		System.out.println("아아");
-		System.out.println(spell1);
+		
 		
 		return null;
 		

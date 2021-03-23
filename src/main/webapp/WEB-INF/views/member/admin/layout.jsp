@@ -62,7 +62,7 @@
 									<ul class="submenu">
 										<li><a href="${pageContext.request.contextPath }/community/insert?cNum=6">공지사항 등록</a></li>
 										<li><a href="${pageContext.request.contextPath }/battingTeam/insert">경기일정 등록</a></li>
-										<li><a href="">경기결과 처리</a></li>
+									
 										<li><a href="${pageContext.request.contextPath }/community/boardList">게시글 관리</a></li>
 									</ul>
 								</li>
